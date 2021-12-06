@@ -3,9 +3,11 @@
 <package format="3">
   <name>libcamera</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>CMake wrapper for libcamera</description>
   <maintainer email="Rauch.Christian@gmx.de">Christian Rauch</maintainer>
-  <license>TODO: License declaration</license>
+  <license>LGPL-2.1</license>
+
+  <url>https://libcamera.org</url>
 
   <export>
     <build_type>cmake</build_type>
