@@ -21,6 +21,10 @@ endif()
 
 string(TOLOWER ${CMAKE_BUILD_TYPE} MESON_BUILD_TYPE)
 
+if(NOT NJOBS)
+  set(NJOBS 0)
+endif()
+
 find_package(GnuTLS REQUIRED)
 find_package(OpenSSL REQUIRED)
 
@@ -29,7 +33,7 @@ include(ExternalProject)
 ExternalProject_Add(libcamera_source
   GIT_REPOSITORY      https://git.libcamera.org/libcamera/libcamera.git
   CONFIGURE_COMMAND   meson build ../libcamera_source --prefix ${CMAKE_INSTALL_PREFIX} --libdir lib --buildtype ${MESON_BUILD_TYPE} -Dcam=disabled -Ddocumentation=disabled -Dgstreamer=disabled -Dlc-compliance=disabled -Dqcam=disabled -Dtest=false -Dtracing=disabled -Dv4l2=true
-  BUILD_COMMAND       meson compile -C build
+  BUILD_COMMAND       meson compile -C build --jobs ${NJOBS}
   INSTALL_COMMAND     meson install -C build
 )
 
