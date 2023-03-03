@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(libcamera)
 
-set(libcamera_MAJOR_VERSION 0)
-set(libcamera_MINOR_VERSION 0)
-set(libcamera_PATCH_VERSION 0)
-set(libcamera_VERSION
-  ${libcamera_MAJOR_VERSION}.${libcamera_MINOR_VERSION}.${libcamera_PATCH_VERSION})
-
 # set default build type
 # https://blog.kitware.com/cmake-and-the-default-build-type/
 if((NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES) OR (CMAKE_BUILD_TYPE STREQUAL "None"))
@@ -24,14 +18,17 @@ if(NOT NJOBS)
   set(NJOBS 0)
 endif()
 
-find_package(GnuTLS REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 include(ExternalProject)
 
 ExternalProject_Add(libcamera_source
   GIT_REPOSITORY      https://git.libcamera.org/libcamera/libcamera.git
-  CONFIGURE_COMMAND   meson build ../libcamera_source --prefix ${CMAKE_INSTALL_PREFIX} --libdir lib --buildtype ${MESON_BUILD_TYPE} -Dcam=disabled -Ddocumentation=disabled -Dgstreamer=disabled -Dlc-compliance=disabled -Dqcam=disabled -Dtest=false -Dtracing=disabled -Dv4l2=true
+  GIT_TAG             v0.0.4
+  GIT_SHALLOW         ON
+  CONFIGURE_COMMAND   meson setup build ../libcamera_source --prefix ${CMAKE_INSTALL_PREFIX} --libdir lib --buildtype ${MESON_BUILD_TYPE}
+                        -Dpipelines=all
+                        -Ddocumentation=disabled -Dgstreamer=disabled -Dlc-compliance=disabled -Dqcam=disabled -Dtracing=disabled
   BUILD_COMMAND       meson compile -C build --jobs ${NJOBS}
   INSTALL_COMMAND     meson install -C build
 )
