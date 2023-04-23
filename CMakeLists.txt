@@ -26,9 +26,9 @@ ExternalProject_Add(libcamera_source
   GIT_REPOSITORY      https://git.libcamera.org/libcamera/libcamera.git
   GIT_TAG             v0.0.4
   GIT_SHALLOW         ON
-  CONFIGURE_COMMAND   meson setup build ../libcamera_source --prefix ${CMAKE_INSTALL_PREFIX} --libdir lib --buildtype ${MESON_BUILD_TYPE}
+  CONFIGURE_COMMAND   meson setup build ../libcamera_source --prefix ${CMAKE_INSTALL_PREFIX} --libdir lib --buildtype ${MESON_BUILD_TYPE} --auto-features=disabled
                         -Dpipelines=all
-                        -Ddocumentation=disabled -Dgstreamer=disabled -Dlc-compliance=disabled -Dqcam=disabled -Dtracing=disabled
+                        -Dcam=enabled
   BUILD_COMMAND       meson compile -C build --jobs ${NJOBS}
   INSTALL_COMMAND     meson install -C build
 )
